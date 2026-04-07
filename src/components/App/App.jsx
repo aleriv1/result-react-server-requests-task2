@@ -36,12 +36,12 @@ function App() {
       .finally(() => setIsLoading(false));
   };
 
-  const editTodo = (id) => {
+  const editTodo = (id, editingState) => {
     fetch(`http://localhost:3002/todos/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json;charset=utf-8" },
       body: JSON.stringify({
-        editing: true,
+        editing: editingState,
       }),
     })
       .then((response) => response.json())
@@ -49,7 +49,7 @@ function App() {
         setTodos((prevTodos) => {
           return prevTodos.map((todo) => {
             return todo.id === responseTodo.id
-              ? { ...todo, editing: !todo.editing }
+              ? { ...todo, editing: responseTodo.editing }
               : todo;
           });
         }),
@@ -62,6 +62,7 @@ function App() {
       headers: { "Content-type": "application/json;charset=utf-8" },
       body: JSON.stringify({
         todoLabel: todoLabelInput,
+        editing: false,
       }),
     })
       .then((resp) => resp.json())
@@ -69,7 +70,11 @@ function App() {
         setTodos((prevTodos) => {
           return prevTodos.map((todo) => {
             return todo.id === respTodo.id
-              ? { ...todo, todoLabel: respTodo.todoLabel }
+              ? {
+                  ...todo,
+                  todoLabel: respTodo.todoLabel,
+                  editing: respTodo.editing,
+                }
               : todo;
           });
         });
@@ -91,20 +96,26 @@ function App() {
   };
 
   return (
-    <>
-      <h1 className={styles.header}>todoS json-server</h1>
-      <NewTodoForm addNewTodo={addNewTodo} />
-      {isLoading ? (
-        <div className={styles.loader}></div>
-      ) : (
-        <TodoList
-          todos={todos}
-          editTodo={editTodo}
-          deleteTodo={deleteTodo}
-          changeTodoLabel={changeTodoLabel}
-        />
-      )}
-    </>
+    <div className={styles.app}>
+      <div className={styles.card}>
+        <h1 className={styles.header}>todoS json-server</h1>
+        <NewTodoForm addNewTodo={addNewTodo} />
+        {isLoading ? (
+          <div
+            className={styles.loader}
+            aria-label="Загрузка"
+            role="status"
+          ></div>
+        ) : (
+          <TodoList
+            todos={todos}
+            editTodo={editTodo}
+            deleteTodo={deleteTodo}
+            changeTodoLabel={changeTodoLabel}
+          />
+        )}
+      </div>
+    </div>
   );
 }
 

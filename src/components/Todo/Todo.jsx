@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Todo.module.scss";
 
 export const Todo = ({
@@ -9,40 +9,72 @@ export const Todo = ({
   deleteTodo,
   changeTodoLabel,
 }) => {
-  const [todoLabelInput, setTodoLabelInput] = useState("");
+  const [todoLabelInput, setTodoLabelInput] = useState(todoLabel);
+
+  useEffect(() => {
+    setTodoLabelInput(todoLabel);
+  }, [todoLabel]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    changeTodoLabel(id, todoLabelInput);
+    const trimmedValue = todoLabelInput.trim();
+
+    if (!trimmedValue) {
+      return;
+    }
+
+    changeTodoLabel(id, trimmedValue);
   };
 
   const onTodoLabelChange = (e) => {
     setTodoLabelInput(e.target.value);
   };
 
+  const toggleEditing = () => {
+    editTodo(id, !editing);
+  };
+
   return (
-    <>
-      <li className={`${styles.todoItem} ${editing ? styles.editing : ""}`}>
+    <li className={`${styles.todoItem} ${editing ? styles.editing : ""}`}>
+      {!editing ? (
         <div className={styles.todoLabel}>
-          {todoLabel}
-          <button
-            className={`${styles.icon} ${styles["icon-edit"]}`}
-            onClick={() => editTodo(id, todoLabel)}
-          >
-            edit
-          </button>
-          <button className={`${styles.icon}`} onClick={() => deleteTodo(id)}>
-            x
-          </button>
+          <p>{todoLabel}</p>
+          <div className={styles.actions}>
+            <button
+              className={`${styles.icon} ${styles["icon-edit"]}`}
+              onClick={toggleEditing}
+              type="button"
+            >
+              Редактировать
+            </button>
+            <button
+              className={styles.icon}
+              onClick={() => deleteTodo(id)}
+              type="button"
+            >
+              Удалить
+            </button>
+          </div>
         </div>
+      ) : (
         <form className={styles.todoEdit} onSubmit={onSubmit}>
           <input
             type="text"
             value={todoLabelInput}
             onChange={onTodoLabelChange}
+            className={styles.editInput}
+            autoFocus
           />
+          <div className={styles.editActions}>
+            <button className={styles.save} type="submit">
+              Сохранить
+            </button>
+            <button className={styles.cancel} type="button" onClick={toggleEditing}>
+              Отменить
+            </button>
+          </div>
         </form>
-      </li>
-    </>
+      )}
+    </li>
   );
 };
