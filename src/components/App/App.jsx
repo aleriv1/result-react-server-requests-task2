@@ -4,10 +4,15 @@ import { useEffect, useState } from "react";
 import { TodoList } from "../TodoList/TodoList";
 import styles from "./App.module.scss";
 import { NewTodoForm } from "../NewTodoForm/NewTodoForm";
+import { TodoSearch } from "../TodoSearch/TodoSearch";
+import { TodoSortToggle } from "../TodoSortToggle/TodoSortToggle";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [isSortEnabled, setIsSortEnabled] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -16,6 +21,14 @@ function App() {
       .then((responseTodo) => setTodos(responseTodo))
       .finally(() => setIsLoading(false));
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedQuery(searchQuery.toLowerCase());
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
 
   const addNewTodo = (todo) => {
     setIsLoading(true);
@@ -107,12 +120,26 @@ function App() {
             role="status"
           ></div>
         ) : (
-          <TodoList
-            todos={todos}
-            editTodo={editTodo}
-            deleteTodo={deleteTodo}
-            changeTodoLabel={changeTodoLabel}
-          />
+          <>
+            <TodoList
+              todos={todos}
+              editTodo={editTodo}
+              deleteTodo={deleteTodo}
+              changeTodoLabel={changeTodoLabel}
+              searchQuery={debouncedQuery}
+              isSortEnabled={isSortEnabled}
+            />
+            <div className={styles.controlsRow}>
+              <TodoSearch
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+              />
+              <TodoSortToggle
+                isSortEnabled={isSortEnabled}
+                onToggle={() => setIsSortEnabled((prev) => !prev)}
+              />
+            </div>
+          </>
         )}
       </div>
     </div>

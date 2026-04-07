@@ -1,10 +1,25 @@
 import { Todo } from "../Todo/Todo";
 import styles from "./TodoList.module.scss";
 
-export const TodoList = ({ todos, editTodo, deleteTodo, changeTodoLabel }) => {
-  return todos.length ? (
+export const TodoList = ({
+  todos,
+  editTodo,
+  deleteTodo,
+  changeTodoLabel,
+  searchQuery,
+  isSortEnabled,
+}) => {
+  const filtered = todos.filter(({ todoLabel }) => {
+    return todoLabel.toLowerCase().includes(searchQuery);
+  });
+
+  const prepared = isSortEnabled
+    ? [...filtered].sort((a, b) => a.todoLabel.localeCompare(b.todoLabel))
+    : filtered;
+
+  return prepared.length ? (
     <ul className={styles.list}>
-      {todos.map((todo) => (
+      {prepared.map((todo) => (
         <Todo
           key={todo.id}
           {...todo}
@@ -15,6 +30,6 @@ export const TodoList = ({ todos, editTodo, deleteTodo, changeTodoLabel }) => {
       ))}
     </ul>
   ) : (
-    <p className={styles.empty}>Список пуст. Добавьте задачу.</p>
+    <p className={styles.empty}>Ничего не найдено.</p>
   );
 };
