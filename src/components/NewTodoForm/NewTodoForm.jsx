@@ -1,8 +1,21 @@
-export const NewTodoForm = () => {
+import { useState } from "react";
+
+export const NewTodoForm = ({ addNewTodo }) => {
+  const [todoLabel, setTodoLabel] = useState("");
+
+  const onTodoLableChange = (e) => {
+    setTodoLabel(e.target.value);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addNewTodo(todoLabel);
+  };
+
   return (
     <>
-      <form>
-        
+      <form onSubmit={onSubmit}>
+        <input type="text" value={todoLabel} onChange={onTodoLableChange} />
       </form>
     </>
   );
