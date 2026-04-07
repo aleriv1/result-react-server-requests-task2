@@ -2,68 +2,29 @@
   "todos": [
     {
       "userId": 1,
-      "id": 1,
-      "title": "delectus aut autem",
-      "completed": false
-    },
-    {
-      "userId": 1,
-      "id": 2,
-      "title": "quis ut nam facilis et officia qui",
-      "completed": false
-    },
-    {
-      "userId": 1,
       "id": 3,
-      "title": "fugiat veniam minus",
+      "todoLabel": "12",
+      "editing": true,
       "completed": false
     },
     {
       "userId": 1,
       "id": 4,
-      "title": "et porro tempora",
+      "todoLabel": "et porro tempora",
+      "editing": true,
       "completed": true
-    },
-    {
-      "id": 1775570896830,
-      "userId": 1,
-      "title": "1",
-      "completed": false
-    },
-    {
-      "id": 1775571382719,
-      "userId": 1,
-      "title": "2",
-      "completed": false
-    },
-    {
-      "id": 1775571443878,
-      "userId": 1,
-      "title": "3",
-      "completed": false
-    },
-    {
-      "id": 1775571445978,
-      "userId": 1,
-      "title": "3",
-      "completed": false
-    },
-    {
-      "id": 1775571492193,
-      "userId": 1,
-      "title": "Alena",
-      "completed": false
-    },
-    {
-      "id": 1775571909213,
-      "userId": 1,
-      "title": "AlenaLove",
-      "completed": false
     },
     {
       "id": 1775571969564,
       "userId": 1,
-      "title": "AlenaErmakova",
+      "todoLabel": "AlenaErmakova",
+      "editing": true,
+      "completed": false
+    },
+    {
+      "id": 1775586754629,
+      "todoLabel": "AlenaSuperLove",
+      "editing": false,
       "completed": false
     }
   ]

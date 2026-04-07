@@ -3,7 +3,7 @@ import { useState } from "react";
 export const NewTodoForm = ({ addNewTodo }) => {
   const [todoLabel, setTodoLabel] = useState("");
 
-  const onTodoLableChange = (e) => {
+  const onNewTodoLableChange = (e) => {
     setTodoLabel(e.target.value);
   };
 
@@ -15,7 +15,7 @@ export const NewTodoForm = ({ addNewTodo }) => {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <input type="text" value={todoLabel} onChange={onTodoLableChange} />
+        <input type="text" value={todoLabel} onChange={onNewTodoLableChange} />
       </form>
     </>
   );

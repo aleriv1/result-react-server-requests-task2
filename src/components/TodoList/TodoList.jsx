@@ -1,11 +1,20 @@
 import { Todo } from "../Todo/Todo";
 
-export const TodoList = ({ todos }) => {
+export const TodoList = ({ todos, editTodo, deleteTodo, changeTodoLabel }) => {
+  console.log(todos);
   return (
     <>
       <ul>
-        {todos.map(({ id, title }) => {
-          return <Todo key={id} todo={title} />;
+        {todos.map((todo) => {
+          return (
+            <Todo
+              key={todo.id}
+              {...todo}
+              editTodo={editTodo}
+              deleteTodo={deleteTodo}
+              changeTodoLabel={changeTodoLabel}
+            />
+          );
         })}
       </ul>
     </>

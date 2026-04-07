@@ -1,0 +1,18 @@
+.icon {
+  font-weight: bold;
+  &-edit {
+    color: green;
+  }
+}
+
+.todoItem {
+  list-style-type: none;
+}
+
+.todoEdit {
+  display: none;
+}
+
+.editing .todoEdit {
+  display: block;
+}
