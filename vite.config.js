@@ -5,7 +5,7 @@ import babel from "@rolldown/plugin-babel";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
-  base: "result-react-server-requests-task2",
+  base: "/result-react-server-requests-task2/",
   server: {
     open: true,
   },
